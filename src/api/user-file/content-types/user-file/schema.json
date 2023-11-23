@@ -1,0 +1,33 @@
+{
+  "kind": "collectionType",
+  "collectionName": "user_files",
+  "info": {
+    "singularName": "user-file",
+    "pluralName": "user-files",
+    "displayName": "UserFiles",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "fileName": {
+      "type": "string"
+    },
+    "key": {
+      "type": "text"
+    },
+    "contents": {
+      "type": "text"
+    },
+    "size": {
+      "type": "decimal"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user"
+    }
+  }
+}
