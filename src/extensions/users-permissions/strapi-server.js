@@ -48,6 +48,15 @@ module.exports = (plugin) => {
   // Define the setup function in the user controller
   plugin.controllers.user.setup = async (ctx) => {
     try {
+      // Check if user already has setup done or keys are not empty
+      if (
+        ctx.state.user.doneSetup ||
+        ctx.state.user.publicKey ||
+        ctx.state.user.privateKey
+      ) {
+        ctx.throw(400, "User already completed setup");
+      }
+
       const { publicKey, privateKey } = await generateKeyPair();
 
       // Encrypt the private key with the master-password
@@ -68,14 +77,14 @@ module.exports = (plugin) => {
             publicKey: publicKey,
             privateKey: encrypted,
             iv: iv,
+            doneSetup: true,
           },
         }
       );
 
       ctx.body = "Keys generated and saved successfully";
-    } catch (error) {
-      ctx.body = "Error generating keys";
-      console.error(error);
+    } catch (err) {
+      ctx.body = { error: err };
     }
   };
 
