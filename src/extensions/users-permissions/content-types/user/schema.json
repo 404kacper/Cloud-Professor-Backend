@@ -66,16 +66,35 @@
       "configurable": false
     },
     "totalFiles": {
-      "type": "integer"
+      "type": "integer",
+      "private": true
     },
     "uploadedFiles": {
-      "type": "integer"
+      "type": "integer",
+      "private": true
     },
     "downloadedFiles": {
-      "type": "integer"
+      "type": "integer",
+      "private": true
     },
     "publicKey": {
-      "type": "string"
+      "type": "string",
+      "private": true
+    },
+    "privateKey": {
+      "type": "string",
+      "unique": true,
+      "private": true
+    },
+    "doneSetup": {
+      "type": "boolean",
+      "default": false,
+      "required": false,
+      "private": true
+    },
+    "iv": {
+      "type": "string",
+      "private": true
     }
   }
 }
