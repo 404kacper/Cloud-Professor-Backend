@@ -1,7 +1,8 @@
 const { generateKeyPair, encryptPrivateKey } = require("../utils/encryption");
 
 const userController = {
-  setup: async (ctx) => {
+  // Setup route for both asynchronous key
+  setupKeys: async (ctx) => {
     try {
       // Check if user already has setup done or keys are not empty
       if (
@@ -37,6 +38,35 @@ const userController = {
       );
 
       ctx.body = "Keys generated and saved successfully";
+    } catch (err) {
+      ctx.body = { error: err };
+    }
+  },
+
+  // Retrieves encrypted private key from the database
+  retrieveMyPrivateKey: async (ctx) => {
+    try {
+      // Check if user already has setup done or keys are not empty
+      if (!ctx.state.user.doneSetup || !ctx.state.user.privateKey) {
+        ctx.throw(400, "Error retrieving the key");
+      }
+
+      const data = await strapi.entityService.findOne(
+        "plugin::users-permissions.user",
+        ctx.state.user.id,
+        {
+          fields: ["privateKey", "iv"],
+        }
+      );
+
+      if (!data || !data.privateKey) {
+        ctx.throw(400, "Key not found");
+      }
+
+      ctx.body = {
+        privateKey: data.privateKey,
+        iv: data.iv,
+      };
     } catch (err) {
       ctx.body = { error: err };
     }
