@@ -383,6 +383,7 @@ export interface ApiUserFileUserFile extends Schema.CollectionType {
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    fileIv: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
