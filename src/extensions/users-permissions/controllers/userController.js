@@ -21,7 +21,10 @@ const userController = {
         ctx.throw(400, "Master password is required");
       }
 
-      const { encrypted, iv } = encryptPrivateKey(privateKey, masterPassword);
+      const { encrypted, iv } = await encryptPrivateKey(
+        privateKey,
+        masterPassword
+      );
 
       // Update the user model with the new keys
       await strapi.entityService.update(

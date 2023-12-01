@@ -32,19 +32,22 @@ async function generateKeyPair() {
   }
 
   function encryptPrivateKey(privateKey, password) {
-    // Generate a secure, random initialization vector
-    const iv = crypto.randomBytes(16);
-
-    // Generate a cipher key from the password
-    const key = crypto.scryptSync(password, "salt", 32);
-
-    // Create a cipher instance using aes-256-cbc algorithm
-    const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
-
-    // Encrypt the private key
-    let encrypted = cipher.update(privateKey, "utf8", "hex");
-    encrypted += cipher.final("hex");
-
-    // Return the encrypted data along with the IV
-    return { encrypted, iv: iv.toString("hex") };
+    return new Promise((resolve, reject) => {
+      const iv = crypto.randomBytes(16);
+      const salt = Buffer.from("salt");
+  
+      crypto.pbkdf2(password, salt, 100000, 32, 'sha256', (err, derivedKey) => {
+        if (err) {
+          reject(err);
+        } else {
+          const key = derivedKey;
+          const cipher = crypto.createCipheriv("aes-256-cbc", key, iv);
+          let encrypted = cipher.update(privateKey, "utf8", "hex");
+          encrypted += cipher.final("hex");
+  
+          resolve({ encrypted, iv: iv.toString("hex") });
+        }
+      });
+    });
   }
+  
