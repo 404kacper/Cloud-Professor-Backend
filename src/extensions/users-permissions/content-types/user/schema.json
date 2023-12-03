@@ -95,6 +95,12 @@
     "iv": {
       "type": "string",
       "private": true
+    },
+    "user_files": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-file.user-file",
+      "mappedBy": "user"
     }
   }
 }

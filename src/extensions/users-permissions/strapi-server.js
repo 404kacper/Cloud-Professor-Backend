@@ -1,12 +1,12 @@
 const {
   setupKeys,
-  retrieveMyPrivateKey,
+  retrieveMyKeys,
 } = require("./controllers/userController");
 
 module.exports = (plugin) => {
   // Define the setup function in the user controller
   plugin.controllers.user.setup = setupKeys;
-  plugin.controllers.user.myKey = retrieveMyPrivateKey;
+  plugin.controllers.user.myKeys = retrieveMyKeys;
 
   // Add the setup route directly to the plugin's routes
   plugin.routes["content-api"].routes.push({
@@ -25,8 +25,8 @@ module.exports = (plugin) => {
 
   plugin.routes["content-api"].routes.push({
     method: "GET",
-    path: "/users/setup/mykey",
-    handler: "user.myKey",
+    path: "/users/setup/mykeys",
+    handler: "user.myKeys",
     config: {
       policies: ["global::is-authenticated"],
       prefix: "",

@@ -380,7 +380,7 @@ export interface ApiUserFileUserFile extends Schema.CollectionType {
     size: Attribute.Decimal;
     user: Attribute.Relation<
       'api::user-file.user-file',
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
     fileIv: Attribute.String;
@@ -701,6 +701,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private &
       Attribute.DefaultTo<false>;
     iv: Attribute.String & Attribute.Private;
+    user_files: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::user-file.user-file'
+    >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     createdBy: Attribute.Relation<

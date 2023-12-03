@@ -47,7 +47,7 @@ const userController = {
   },
 
   // Retrieves encrypted private key from the database
-  retrieveMyPrivateKey: async (ctx) => {
+  retrieveMyKeys: async (ctx) => {
     try {
       // Check if user already has setup done or keys are not empty
       if (!ctx.state.user.doneSetup || !ctx.state.user.privateKey) {
@@ -58,7 +58,7 @@ const userController = {
         "plugin::users-permissions.user",
         ctx.state.user.id,
         {
-          fields: ["privateKey", "iv"],
+          fields: ["publicKey", "privateKey", "iv"],
         }
       );
 
@@ -67,6 +67,7 @@ const userController = {
       }
 
       ctx.body = {
+        publicKey: data.publicKey,
         privateKey: data.privateKey,
         iv: data.iv,
       };
