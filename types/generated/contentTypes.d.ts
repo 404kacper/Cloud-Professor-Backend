@@ -374,16 +374,22 @@ export interface ApiUserFileUserFile extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
-    fileName: Attribute.String;
-    key: Attribute.Text;
-    contents: Attribute.Text;
+    fileName: Attribute.String & Attribute.Required;
+    key: Attribute.Text & Attribute.Required;
+    contents: Attribute.Text & Attribute.Required;
     size: Attribute.Decimal;
-    user: Attribute.Relation<
+    author: Attribute.Relation<
       'api::user-file.user-file',
       'manyToOne',
       'plugin::users-permissions.user'
     >;
     fileIv: Attribute.String;
+    recipient: Attribute.Relation<
+      'api::user-file.user-file',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    keySize: Attribute.Float;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -701,7 +707,12 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       Attribute.Private &
       Attribute.DefaultTo<false>;
     iv: Attribute.String & Attribute.Private;
-    user_files: Attribute.Relation<
+    user_files_sent: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::user-file.user-file'
+    >;
+    user_files_received: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::user-file.user-file'

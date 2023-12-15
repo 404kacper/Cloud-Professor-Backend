@@ -96,11 +96,17 @@
       "type": "string",
       "private": true
     },
-    "user_files": {
+    "user_files_sent": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::user-file.user-file",
-      "mappedBy": "user"
+      "mappedBy": "author"
+    },
+    "user_files_received": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-file.user-file",
+      "mappedBy": "recipient"
     }
   }
 }

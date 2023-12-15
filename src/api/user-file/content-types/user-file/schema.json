@@ -13,25 +13,39 @@
   "pluginOptions": {},
   "attributes": {
     "fileName": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "key": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "contents": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "size": {
       "type": "decimal"
     },
-    "user": {
+    "author": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "user_files"
+      "inversedBy": "user_files_sent"
     },
     "fileIv": {
-      "type": "string"
+      "type": "string",
+      "required": false
+    },
+    "recipient": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "user_files_received"
+    },
+    "keySize": {
+      "type": "float",
+      "required": false
     }
   }
 }

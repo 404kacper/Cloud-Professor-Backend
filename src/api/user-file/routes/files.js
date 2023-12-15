@@ -4,9 +4,16 @@ module.exports = {
       method: "POST",
       path: "/files/upload",
       handler: "files.upload",
-      config: {
-        policies: ["global::is-authenticated"],
-      },
+    },
+    {
+      method: "GET",
+      path: "/files/me",
+      handler: "files.retrieveMe",
+    },
+    {
+      method: "GET",
+      path: "/files/tome",
+      handler: "files.retrieveSharedWithMe"
     },
   ],
 };
