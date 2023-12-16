@@ -34,7 +34,7 @@ module.exports = (config, { strapi }) => {
     if (!entry) {
       return ctx.unauthorized("This action is unauthorized.");
     }
-    if (user.id !== entry.author.id) {
+    if (user.id !== entry.author.id && user.id !== entry.recipient.id) {
       return ctx.unauthorized("This action is unauthorized.");
     } else {
       return next();
