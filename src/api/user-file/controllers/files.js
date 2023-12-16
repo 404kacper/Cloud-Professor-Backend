@@ -46,20 +46,32 @@ module.exports = {
 
       // Create the file
       // And set relations to the user and the recipient
-      await strapi.entityService.create("api::user-file.user-file", {
-        data: {
-          fileName: fileName,
-          key: fileKey,
-          contents: fileData,
-          size: fileSize,
-          author: ctx.state.user.id,
-          fileIv: fileIv,
-          recipient: recipientId,
-          keySize: fileKeySize,
-        },
-      });
+      const createdFile = await strapi.entityService.create(
+        "api::user-file.user-file",
+        {
+          data: {
+            fileName: fileName,
+            key: fileKey,
+            contents: fileData,
+            size: fileSize,
+            author: ctx.state.user.id,
+            fileIv: fileIv,
+            recipient: recipientId,
+            keySize: fileKeySize,
+          },
+        }
+      );
 
-      ctx.body = "File uploaded successfully";
+      const responseObject = {
+        id: createdFile.id,
+        fileName: createdFile.fileName,
+        keySize: createdFile.keySize,
+        size: createdFile.size,
+        createdAt: createdFile.createdAt,
+        key: createdFile.key,
+      }
+
+      ctx.body = responseObject;
     } catch (err) {
       ctx.body = { error: err };
     }
