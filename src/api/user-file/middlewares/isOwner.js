@@ -30,6 +30,10 @@ module.exports = (config, { strapi }) => {
      * to decide whether the request can be fulfilled
      * by going forward in the Strapi backend server
      */
+    // when entry doesn't exist throw the same error
+    if (!entry) {
+      return ctx.unauthorized("This action is unauthorized.");
+    }
     if (user.id !== entry.author.id) {
       return ctx.unauthorized("This action is unauthorized.");
     } else {
