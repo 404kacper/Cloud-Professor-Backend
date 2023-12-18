@@ -80,10 +80,11 @@ const userController = {
   customFind: async (ctx) => {
     try {
       // Default values for limit and page
-      const limit = ctx.query._limit ? parseInt(ctx.query._limit) : 8; // Default limit is 8
+      let limit = ctx.query._limit ? parseInt(ctx.query._limit) : 8; // Default limit is 8
       const page = ctx.query.page ? parseInt(ctx.query.page) : 1; // Default page is 1
 
-      console.log(ctx.query._limit);
+      // logic to don't allow queries bigger than 20
+      limit = limit > 20 ? 8 : limit;
 
       // Calculate the offset
       const offset = (page - 1) * limit;
