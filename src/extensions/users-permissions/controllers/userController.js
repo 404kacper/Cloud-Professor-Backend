@@ -1,4 +1,5 @@
 const { generateKeyPair, encryptPrivateKey } = require("../utils/encryption");
+const { sanitize, validate } = require("@strapi/utils");
 
 const userController = {
   // Setup route for both asynchronous key
@@ -79,27 +80,26 @@ const userController = {
   // Retrieves encrypted private key from the database
   customFind: async (ctx) => {
     try {
-      // Default values for limit and page
-      let limit = ctx.query._limit ? parseInt(ctx.query._limit) : 8; // Default limit is 8
-      const page = ctx.query.page ? parseInt(ctx.query.page) : 1; // Default page is 1
-
-      // logic to don't allow queries bigger than 20
-      limit = limit > 20 ? 8 : limit;
-
-      // Calculate the offset
-      const offset = (page - 1) * limit;
+      const contentType = strapi.contentType("plugin::users-permissions.user");
+      await validate.contentAPI.query(ctx.query, contentType, {
+        auth: ctx.state.auth,
+      });
+      const sanitizedQueryParams = await sanitize.contentAPI.query(
+        ctx.query,
+        contentType,
+        { auth: ctx.state.auth }
+      );
 
       // Fetch users with limit and offset
       const users = await strapi.entityService.findMany(
         "plugin::users-permissions.user",
-        {
-          limit: limit,
-          start: offset,
-        }
+        sanitizedQueryParams
       );
 
-      // Return the users
-      ctx.body = users;
+      // Return the sanitized users
+      ctx.body = await sanitize.contentAPI.output(users, contentType, {
+        auth: ctx.state.auth,
+      });
     } catch (err) {
       ctx.body = { error: err.message };
     }
