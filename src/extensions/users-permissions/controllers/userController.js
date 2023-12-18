@@ -90,6 +90,9 @@ const userController = {
         { auth: ctx.state.auth }
       );
 
+      // also only include the necessary fields for UI
+      sanitizedQueryParams.fields = ["username", "email", "id", "publicKey"];
+
       // Fetch users with limit and offset
       const users = await strapi.entityService.findMany(
         "plugin::users-permissions.user",

@@ -78,8 +78,7 @@
       "private": true
     },
     "publicKey": {
-      "type": "string",
-      "private": true
+      "type": "string"
     },
     "privateKey": {
       "type": "string",

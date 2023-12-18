@@ -701,7 +701,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     totalFiles: Attribute.Integer & Attribute.Private;
     uploadedFiles: Attribute.Integer & Attribute.Private;
     downloadedFiles: Attribute.Integer & Attribute.Private;
-    publicKey: Attribute.String & Attribute.Private;
+    publicKey: Attribute.String;
     privateKey: Attribute.String & Attribute.Private & Attribute.Unique;
     doneSetup: Attribute.Boolean &
       Attribute.Private &
