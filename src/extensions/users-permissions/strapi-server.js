@@ -1,12 +1,14 @@
 const {
   setupKeys,
   retrieveMyKeys,
+  customFind,
 } = require("./controllers/userController");
 
 module.exports = (plugin) => {
   // Define the setup function in the user controller
   plugin.controllers.user.setup = setupKeys;
   plugin.controllers.user.myKeys = retrieveMyKeys;
+  plugin.controllers.user.find = customFind;
 
   // Add the setup route directly to the plugin's routes
   plugin.routes["content-api"].routes.push({
