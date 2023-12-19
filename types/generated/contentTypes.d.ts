@@ -420,13 +420,12 @@ export interface ApiUserLogUserLog extends Schema.CollectionType {
     draftAndPublish: true;
   };
   attributes: {
+    associatedFile: Attribute.String;
     user: Attribute.Relation<
       'api::user-log.user-log',
-      'oneToOne',
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
-    date: Attribute.DateTime;
-    associatedFile: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
@@ -716,6 +715,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'plugin::users-permissions.user',
       'oneToMany',
       'api::user-file.user-file'
+    >;
+    user_logs: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::user-log.user-log'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;

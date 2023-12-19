@@ -37,11 +37,17 @@ module.exports = {
         recipientId = ctx.state.user.id;
       } else {
         // If included find recipient by id and assign his id as relation
-        const idObject = await strapi.db
+        const recipientUser = await strapi.db
           .query("plugin::users-permissions.user")
           .findOne({ select: ["id"], where: { email: fileRecipient } });
+
+        // throw error if recipient not found
+        if (!recipientUser) {
+          ctx.throw(404, "Recipient user not found");
+        }
+
         // returns object with only user id
-        recipientId = idObject.id;
+        recipientId = recipientUser.id;
       }
 
       // Create the file
@@ -62,6 +68,18 @@ module.exports = {
         }
       );
 
+      // This part creates log for file recipient
+      if (recipientId !== ctx.state.user.id) {
+        await strapi.entityService.create("api::user-log.user-log", {
+          data: {
+            user: recipientId,
+            associatedFile: createdFile.fileName,
+          },
+        });
+      }
+
+      // This part prepares response object
+      // & increments totalFiles & upladFiles fields for the user
       // Retrieve the current user id
       const userId = ctx.state.user.id;
 

@@ -106,6 +106,12 @@
       "relation": "oneToMany",
       "target": "api::user-file.user-file",
       "mappedBy": "recipient"
+    },
+    "user_logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-log.user-log",
+      "mappedBy": "user"
     }
   }
 }
