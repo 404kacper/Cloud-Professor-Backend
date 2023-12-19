@@ -15,11 +15,17 @@
     "associatedFile": {
       "type": "string"
     },
-    "user": {
+    "recipient": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "user_logs"
+    },
+    "author": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "authored_user_logs"
     }
   }
 }

@@ -72,7 +72,8 @@ module.exports = {
       if (recipientId !== ctx.state.user.id) {
         await strapi.entityService.create("api::user-log.user-log", {
           data: {
-            user: recipientId,
+            recipient: recipientId,
+            author: ctx.state.user.id,
             associatedFile: createdFile.fileName,
           },
         });

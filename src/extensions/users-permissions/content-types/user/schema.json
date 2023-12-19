@@ -111,7 +111,13 @@
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::user-log.user-log",
-      "mappedBy": "user"
+      "mappedBy": "recipient"
+    },
+    "authored_user_logs": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::user-log.user-log",
+      "mappedBy": "author"
     }
   }
 }

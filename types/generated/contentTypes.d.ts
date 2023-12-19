@@ -421,7 +421,12 @@ export interface ApiUserLogUserLog extends Schema.CollectionType {
   };
   attributes: {
     associatedFile: Attribute.String;
-    user: Attribute.Relation<
+    recipient: Attribute.Relation<
+      'api::user-log.user-log',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    author: Attribute.Relation<
       'api::user-log.user-log',
       'manyToOne',
       'plugin::users-permissions.user'
@@ -717,6 +722,11 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'api::user-file.user-file'
     >;
     user_logs: Attribute.Relation<
+      'plugin::users-permissions.user',
+      'oneToMany',
+      'api::user-log.user-log'
+    >;
+    authored_user_logs: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
       'api::user-log.user-log'
