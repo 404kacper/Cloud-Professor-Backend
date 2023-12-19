@@ -698,9 +698,9 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    totalFiles: Attribute.Integer & Attribute.Private;
-    uploadedFiles: Attribute.Integer & Attribute.Private;
-    downloadedFiles: Attribute.Integer & Attribute.Private;
+    totalFiles: Attribute.Integer & Attribute.DefaultTo<0>;
+    uploadedFiles: Attribute.Integer & Attribute.DefaultTo<0>;
+    downloadedFiles: Attribute.Integer & Attribute.DefaultTo<0>;
     publicKey: Attribute.String;
     privateKey: Attribute.String & Attribute.Private & Attribute.Unique;
     doneSetup: Attribute.Boolean &

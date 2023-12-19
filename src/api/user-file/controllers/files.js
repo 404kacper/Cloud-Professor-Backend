@@ -23,6 +23,12 @@ module.exports = {
         ctx.throw(400, "Some of the required fields are missing");
       }
 
+      // Check if user that is sending file has completed setup
+      // Otherwise he doesn't have a key to encrypt the file
+      if (!ctx.state.user.doneSetup) {
+        ctx.throw(400, "User hasn't completed setup yet");
+      }
+
       // Specify recipient for the file
       let recipientId;
 
@@ -36,12 +42,6 @@ module.exports = {
           .findOne({ select: ["id"], where: { email: fileRecipient } });
         // returns object with only user id
         recipientId = idObject.id;
-      }
-
-      // Check if user that is sending file has completed setup
-      // Otherwise he doesn't have a key to encrypt the file
-      if (!ctx.state.user.doneSetup) {
-        ctx.throw(400, "User hasn't completed setup yet");
       }
 
       // Create the file
@@ -62,6 +62,27 @@ module.exports = {
         }
       );
 
+      // Retrieve the current user id
+      const userId = ctx.state.user.id;
+
+      // Fetch the current user data
+      const user = await strapi.entityService.findOne(
+        "plugin::users-permissions.user",
+        userId
+      );
+
+      // Increment totalFiles field for the user
+      await strapi.entityService.update(
+        "plugin::users-permissions.user",
+        userId,
+        {
+          data: {
+            totalFiles: user.totalFiles ? user.totalFiles + 1 : 1,
+            uploadedFiles: user.uploadedFiles ? user.uploadedFiles + 1 : 1,
+          },
+        }
+      );
+
       const responseObject = {
         id: createdFile.id,
         fileName: createdFile.fileName,
@@ -69,7 +90,7 @@ module.exports = {
         size: createdFile.size,
         createdAt: createdFile.createdAt,
         key: createdFile.key,
-      }
+      };
 
       ctx.body = responseObject;
     } catch (err) {

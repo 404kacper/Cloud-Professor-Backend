@@ -67,15 +67,15 @@
     },
     "totalFiles": {
       "type": "integer",
-      "private": true
+      "default": 0
     },
     "uploadedFiles": {
       "type": "integer",
-      "private": true
+      "default": 0
     },
     "downloadedFiles": {
       "type": "integer",
-      "private": true
+      "default": 0
     },
     "publicKey": {
       "type": "string"
