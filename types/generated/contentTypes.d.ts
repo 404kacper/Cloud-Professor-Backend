@@ -707,9 +707,7 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
     downloadedFiles: Attribute.Integer & Attribute.DefaultTo<0>;
     publicKey: Attribute.String;
     privateKey: Attribute.String & Attribute.Private & Attribute.Unique;
-    doneSetup: Attribute.Boolean &
-      Attribute.Private &
-      Attribute.DefaultTo<false>;
+    doneSetup: Attribute.Boolean & Attribute.DefaultTo<false>;
     iv: Attribute.String & Attribute.Private;
     user_files_sent: Attribute.Relation<
       'plugin::users-permissions.user',

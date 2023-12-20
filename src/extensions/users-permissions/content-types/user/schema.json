@@ -88,8 +88,7 @@
     "doneSetup": {
       "type": "boolean",
       "default": false,
-      "required": false,
-      "private": true
+      "required": false
     },
     "iv": {
       "type": "string",

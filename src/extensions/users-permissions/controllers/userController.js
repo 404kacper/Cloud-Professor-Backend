@@ -41,7 +41,14 @@ const userController = {
         }
       );
 
-      ctx.body = "Keys generated and saved successfully";
+      ctx.body = {
+        data: {
+          publicKey: publicKey,
+          privateKey: encrypted,
+          iv: iv,
+          doneSetup: true,
+        },
+      };
     } catch (err) {
       ctx.body = { error: err };
     }
